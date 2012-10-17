@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>ArtWatcher.html</welcome-file>
+  </welcome-file-list>
+
+	<servlet>
+		<servlet-name>loginService</servlet-name>
+		<servlet-class>com.google.gwt.artvan.server.LoginServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet>
+    	<servlet-name>stockService</servlet-name>
+    	<servlet-class>com.google.gwt.artvan.server.StockServiceImpl</servlet-class>
+  	</servlet>
+	
+	
+	<servlet>
+    	<servlet-name>ArtInformationSvc</servlet-name>
+    	<servlet-class>com.google.gwt.artvan.server.ArtInformationServiceImpl</servlet-class>
+  	</servlet>
+	
+	<servlet-mapping>
+    	<servlet-name>ArtInformationSvc</servlet-name>
+    	<url-pattern>/artvan/artInfo</url-pattern>
+ 	</servlet-mapping>
+	
+  <servlet>
+    <servlet-name>stockPriceServiceImpl</servlet-name>
+    <servlet-class>com.google.gwt.artvan.server.StockPriceServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>stockPriceServiceImpl</servlet-name>
+    <url-pattern>/artvan/stockPrices</url-pattern>
+  </servlet-mapping>
+	
+	
+	<servlet-mapping>
+		<servlet-name>loginService</servlet-name>
+		<url-pattern>/artvan/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+    	<servlet-name>stockService</servlet-name>
+    	<url-pattern>/artvan/stock</url-pattern>
+  	</servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>SystemServiceServlet</servlet-name>
+    <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+    <init-param>
+      <param-name>services</param-name>
+      <param-value/>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SystemServiceServlet</servlet-name>
+    <url-pattern>/_ah/spi/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
