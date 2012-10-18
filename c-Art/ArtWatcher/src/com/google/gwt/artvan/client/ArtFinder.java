@@ -24,6 +24,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -106,6 +107,11 @@ public class ArtFinder implements EntryPoint {
 									+ "\"  is logged in, loading ArtWatcher");
 							userName.setText(loginInfo.getNickname());
 							loadArtWatcher();
+							Maps.loadMapsApi("AIzaSyBCzkdwkEfrlBoWpzcqUaoR7PaM7d3kSQ0", "2", false, new Runnable() {
+								public void run() {
+									buildUI();
+								}
+							});
 						} else {
 							System.out
 									.println("user not logged in, loading login page");
@@ -113,19 +119,15 @@ public class ArtFinder implements EntryPoint {
 						}
 					}
 				});
-		Maps.loadMapsApi("", "2", false, new Runnable() {
-			public void run() {
-				buildUI();
-			}
-		});
 	}
 	
 	private void buildUI() {
-		final MapWidget map = new MapWidget();
-		map.setSize("100%", "100%");
+		 LatLng vancouver = LatLng.newInstance(49.25, -123.11);
+		final MapWidget map = new MapWidget(vancouver, 12);
+		map.setSize("60%", "60%");
 		map.addControl(new LargeMapControl());
 		final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
-		dock.addNorth(map,  500);
+		dock.addNorth(map, 1000);
 		RootPanel.get("mapRoot").add(dock);
 	}
 
