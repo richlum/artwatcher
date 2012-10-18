@@ -30,25 +30,40 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 public class ArtFinder implements EntryPoint {
 	// stockwatcher items
 	private final int REFRESH_INTERVAL = 1200000; // ms
 	private VerticalPanel mainPanel = new VerticalPanel();
+	private VerticalPanel tablePanel = new VerticalPanel();
 	private FlexTable artFlexTable = new FlexTable();
+	private HorizontalPanel pagePanel = new HorizontalPanel();
 	private HorizontalPanel addPanel = new HorizontalPanel();
+	private HorizontalPanel artPanel = new HorizontalPanel();
+	private HorizontalPanel sortPanel = new HorizontalPanel();
 	private TextBox newSymbolTextBox = new TextBox();
+	private TextBox artSearchTextBox = new TextBox();
 	private Button findArtButton = new Button("findArt");
 	private Button deleteAllArtButton = new Button("DELETE_ALL_Art");
-	private HorizontalPanel artPanel = new HorizontalPanel();
+	private Button sortButton = new Button("Go");
 	private Button addStockButton = new Button("Add");
 	private Label lastUpdatedLabel = new Label();
+	private ListBox sortByLB = new ListBox();
 	private ArrayList<String> stocks = new ArrayList<String>();
 	private StockPriceServiceAsync stockPriceSvc = GWT
 			.create(StockPriceService.class);
@@ -132,6 +147,8 @@ public class ArtFinder implements EntryPoint {
 		artFlexTable.setText(0, 1, "Lat/Long");
 		artFlexTable.setText(0, 2, "Description");
 		artFlexTable.setText(0, 3, "Visits");
+		artFlexTable.setText(0, 4, "Visited");
+		artFlexTable.setText(0, 5, "Rating (5 = highest)");
 
 		// Add styles to elements in the table.
 		artFlexTable.setCellPadding(6);
@@ -139,12 +156,12 @@ public class ArtFinder implements EntryPoint {
 		// Add styles to elements in the stock list table.
 		artFlexTable.getRowFormatter().addStyleName(0, "watchListHeader");
 		artFlexTable.addStyleName("watchList");
-		artFlexTable.getCellFormatter().addStyleName(0, 1,
-				"watchListNumericColumn");
-		artFlexTable.getCellFormatter().addStyleName(0, 2,
-				"watchListNumericColumn");
-		artFlexTable.getCellFormatter().addStyleName(0, 3,
-				"watchListRemoveColumn");
+		artFlexTable.getCellFormatter().addStyleName(0, 1,"watchListNumericColumn");
+		artFlexTable.getCellFormatter().addStyleName(0, 2,"watchListNumericColumn");
+		artFlexTable.getCellFormatter().addStyleName(0, 3,"watchListRemoveColumn");
+		artFlexTable.getCellFormatter().addStyleName(0, 4,"watchListAddVisitsColumn");
+		artFlexTable.getCellFormatter().addStyleName(0, 5,"watchListRatingsColumn");
+
 
 		//loadStocks();
 
@@ -153,19 +170,51 @@ public class ArtFinder implements EntryPoint {
 		//addPanel.add(newSymbolTextBox);
 		//addPanel.addStyleName("addPanel");
 
+		//Assemble Find Art panel
+		artSearchTextBox.setStyleName("artSearchTextbox");
+		findArtButton.setStyleName("findArtButton");
+		artPanel.add(artSearchTextBox);
 		artPanel.add(findArtButton);
 		artPanel.add(deleteAllArtButton);
 		
+		//Assemble Sort Art panel
+		sortButton.addClickHandler(new ClickHandler()
+	    {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("Will sort by " + sortByLB.getValue(sortByLB.getSelectedIndex()));				
+			}
+	    });
+		sortPanel.addStyleName("sortPanel");
+		sortByLB.addItem("Rating");
+		sortByLB.addItem("Most visited");
+		sortByLB.setVisibleItemCount(1);
+		sortPanel.add(new HTML("Sort by:"));
+		sortPanel.add(sortByLB);
+		sortPanel.add(sortButton);
+		
+		//Assemble Table Panel
+		tablePanel.add(new HTML("<h3>Search Results</h3>"));
+		tablePanel.add(sortPanel);
+		tablePanel.add(artFlexTable);
+		//tablePanel.add(addPanel);
+		tablePanel.add(lastUpdatedLabel	);
+		tablePanel.add(signOutLink);
+		
 		// Assemble Main Panel
-		mainPanel.add(signOutLink);
+		mainPanel.add(new HTML("<p><h2>Welcome/Intro Message</h2></p>"));
+		mainPanel.add(new HTML("<b>Current login:</b>"));
 		mainPanel.add(userName);
-		mainPanel.add(artPanel);
-		mainPanel.add(artFlexTable);
-		mainPanel.add(addPanel);
-		mainPanel.add(lastUpdatedLabel);
+		mainPanel.add(new HTML("<hr />"));
+		mainPanel.add(new HTML("<h3>Enter query:<h3>"));
+		mainPanel.add(artPanel);	
 
 		// Associate Main panel with the HTML host page
-		RootPanel.get("artList").add(mainPanel);
+		pagePanel.add(mainPanel);
+		pagePanel.setSpacing(20);
+		pagePanel.add(tablePanel);
+		RootPanel.get("artList").add(pagePanel);
+		RootPanel.get("artList").add(createUploadForm());
 
 		// Move cursor focus to input box
 		newSymbolTextBox.setFocus(true);
@@ -347,12 +396,11 @@ public class ArtFinder implements EntryPoint {
 		stocks.add(symbol);
 		artFlexTable.setText(row, 0, symbol);
 		artFlexTable.setWidget(row, 2, new Label());
-		artFlexTable.getCellFormatter().addStyleName(row, 1,
-				"watchListNumericColumn");
-		artFlexTable.getCellFormatter().addStyleName(row, 2,
-				"watchListNumericColumn");
-		artFlexTable.getCellFormatter().addStyleName(row, 3,
-				"watchListRemoveColumn");
+		artFlexTable.getCellFormatter().addStyleName(row, 1, "watchListNumericColumn");
+		artFlexTable.getCellFormatter().addStyleName(row, 2, "watchListNumericColumn");
+		artFlexTable.getCellFormatter().addStyleName(row, 3, "watchListRemoveColumn");
+	    artFlexTable.getCellFormatter().addStyleName(row, 4, "watchListRateColumn");
+	    artFlexTable.getCellFormatter().addStyleName(row, 5, "watchListNumVisitsColumn");	   
 
 		// add button to remove stock
 		Button removeStockButton = new Button("x");
@@ -441,7 +489,8 @@ public class ArtFinder implements EntryPoint {
 		}
 		// we have fewer rows than before, clear the excess
 		for (int i = artInfo.length; i< existing_rowcount; i++){
-			artFlexTable.removeRow(i);
+			if(i!=0) //just so we don't remove the header if length = 0
+				artFlexTable.removeRow(i);
 		}
 		lastUpdatedLabel.setText("Last update : "
 				+ DateTimeFormat.getMediumDateTimeFormat().format(new Date()));
@@ -450,13 +499,43 @@ public class ArtFinder implements EntryPoint {
 
 	private void updateTable(ArtInformation artInfo, int row) {
 
-		String priceText = " " + artInfo.getLat() + " " + artInfo.getLng();
-		String changeText = artInfo.getDescription();
-
+		String latlong = " " + artInfo.getLat() + " " + artInfo.getLng();
+		String desc = artInfo.getDescription();
+		//fill row with art info
 		artFlexTable.setText(row, 0, artInfo.getName());
-		artFlexTable.setText(row, 1, priceText);
-		artFlexTable.setText(row, 2, changeText);
+		artFlexTable.setText(row, 1, latlong);
+		artFlexTable.setText(row, 2, desc);
 		artFlexTable.setText(row, 3, "" + artInfo.getVisits());
+		
+		//add button to add visits
+		final int currentRow = row;
+		Button visitedButton = new Button("+");
+		visitedButton.setSize("20px", "20px");
+		visitedButton.addClickHandler(new ClickHandler(){		
+			@Override
+			public void onClick(ClickEvent event) {
+				//increase visitor count of related art object
+				int numVisits = Integer.parseInt(artFlexTable.getText(currentRow, 3)); //get current number of visits shown in table
+				artFlexTable.setText(currentRow, 3, ""+(++numVisits));
+				//TODO Persist new visit count to server
+			}	
+		});
+		artFlexTable.setWidget(row, 4, visitedButton);
+		
+		//add ratings selector
+		RadioButton rb1 = new RadioButton("Rating", "1");
+	    RadioButton rb2 = new RadioButton("Rating", "2");
+	    RadioButton rb3 = new RadioButton("Rating", "3");
+	    RadioButton rb4 = new RadioButton("Rating", "4");
+	    RadioButton rb5 = new RadioButton("Rating", "5");
+	    FlowPanel ratingsPanel = new FlowPanel();
+	    ratingsPanel.add(rb1);
+	    ratingsPanel.add(rb2);
+	    ratingsPanel.add(rb3);
+	    ratingsPanel.add(rb4);
+	    ratingsPanel.add(rb5);
+	    artFlexTable.setWidget(row, 5, ratingsPanel);
+		
 	}
 
 	private void updateTable(StockPrice stockPrice) {
@@ -493,6 +572,55 @@ public class ArtFinder implements EntryPoint {
 		changeWidget.setStyleName(changeStyleName);
 	}
 
+	private FormPanel createUploadForm(){
+		//file upload form and button
+		final FormPanel uploadForm = new FormPanel();
+		VerticalPanel uploadPanel = new VerticalPanel();
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		final FileUpload fileSelector = new FileUpload();
+		Button submitButton = new Button("Upload File");
+		Button updateButton = new Button("Update from Data Vancouver");
+		//Button downloadButton = new Button("Download current data");
+		
+		// Add upload form, courtesy of http://examples.roughian.com/index.htm#Widgets~FileUpload
+	    uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    uploadForm.setMethod(FormPanel.METHOD_POST);
+	    uploadForm.addStyleName("uploadForm");
+	    fileSelector.setName("uploadButton");
+	    uploadPanel.add(new HTML("<b>Upload xml file:</b><br />"));
+	    uploadPanel.add(new HTML("<b><font color ='red'>(ADMIN USE ONLY)</b><br />"));
+	    uploadPanel.add(fileSelector);	    
+	    uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
+	    submitButton.addClickHandler(new ClickHandler()
+	    {
+			@Override
+			public void onClick(ClickEvent event) {
+				uploadForm.submit();				
+			}
+	    });
+	    //TODO clickhandlers for download and update buttons
+	    uploadPanel.add(new HTML("<hr />"));
+	    buttonPanel.add(submitButton);
+	    buttonPanel.add(updateButton);
+	    //buttonPanel.add(downloadButton);
+	    uploadPanel.add(buttonPanel);
+	    uploadForm.add(uploadPanel);
+	    uploadForm.setAction("/UploadArt");
+	    uploadForm.addSubmitHandler(new SubmitHandler()
+	    {
+			@Override
+			public void onSubmit(SubmitEvent event) {
+				if(fileSelector.getFilename().endsWith("xml"))
+					uploadForm.submit();
+				else if(fileSelector.getFilename().equals(""))
+					Window.alert("Please select a xml file first");
+				else
+					Window.alert("Not a XML file");				
+			}
+	    });	    
+	    return uploadForm;
+	}
+	
 	private void handleError(Throwable error) {
 		Window.alert(error.getMessage());
 		if (error instanceof NotLoggedInException) {
