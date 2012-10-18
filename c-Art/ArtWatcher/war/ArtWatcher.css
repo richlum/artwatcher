@@ -78,6 +78,16 @@ body {
   color: black;
 }
 
+/* Admin only upload form */
+.uploadForm {
+  border: 1px solid silver;
+  background-color: #2062B8;
+  color: white;
+  font-style: italic;
+  width: 250px;
+  height: 125px;
+}
+
 .positiveChange {
   color: green;
 }

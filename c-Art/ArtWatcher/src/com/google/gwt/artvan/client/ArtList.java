@@ -32,6 +32,7 @@ public class ArtList {
 
 			public void onSuccess(ArtInformation[] result) {
 				// updateTable(result);
+				if(result!=null)
 				artworks.addAll(Arrays.asList(result));
 			}
 		};
