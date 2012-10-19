@@ -260,7 +260,7 @@ public class ArtFinder implements EntryPoint {
 				artlist.deleteAllArt();
 				// just assume that delete completes asynchronously and wipe out table here
 				int rows = artFlexTable.getRowCount();
-				for (int i = 2; i<rows; i++){
+				for (int i = 1; i<rows; i++){
 					artFlexTable.removeRow(1);
 				}
 				//refreshArtList();
