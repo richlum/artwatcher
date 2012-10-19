@@ -11,13 +11,14 @@ public class LocationManager {
 		//TODO : integrate google maps geocoding service
 	}
 	
-	double distanceToUserLocation(double lat, double lng){
+	//todo update ArtInformation to reflect distance from user by calling ai.setKmFromUser
+	void distanceToUserLocation(double userlat, double userlng, ArtInformation[] ai){
 		//TODO : use google maps distance functions
-		return 99.99;
+		
 	}
 	
 	
-	void makeMarkerList( ){
+	void makeMarkerList( ArtInformation[] ai){
 		//TODO correct signature, set of pairs of lat long in, return list of markers
 		
 	}

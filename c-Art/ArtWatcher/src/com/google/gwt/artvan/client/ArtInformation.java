@@ -17,6 +17,7 @@ public class ArtInformation  implements Serializable {
 	private String link;
 	private int visits;
 	private double rating; // maps to Art.avgRating
+	private double kmFromUser;
 
 	
 	public double getLat() {
@@ -139,6 +140,16 @@ public class ArtInformation  implements Serializable {
 				" rate= " + this.getRating() +
 				" visit= " + this.getVisits();
 		return mystr;
+	}
+
+
+	public double getKmFromUser() {
+		return kmFromUser;
+	}
+
+
+	public void setKmFromUser(double kmFromUser) {
+		this.kmFromUser = kmFromUser;
 	}
 	
 	

@@ -84,6 +84,12 @@ public class ArtFinder implements EntryPoint {
 
 	private final StockServiceAsync stockService = GWT
 			.create(StockService.class);
+	protected String sortbyindex;
+	private LocationManager locationManager = new LocationManager();
+
+	public LocationManager getLocationManager() {
+		return locationManager;
+	}
 
 	/**
 	 * Entry point method
@@ -182,12 +188,15 @@ public class ArtFinder implements EntryPoint {
 	    {
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("Will sort by " + sortByLB.getValue(sortByLB.getSelectedIndex()));				
+				Window.alert("Will sort by " + sortByLB.getValue(sortByLB.getSelectedIndex()));	
+				setSortbyindex  (sortByLB.getValue(sortByLB.getSelectedIndex()));
 			}
 	    });
 		sortPanel.addStyleName("sortPanel");
 		sortByLB.addItem("Rating");
 		sortByLB.addItem("Most visited");
+		//initialize variable for external access
+		setSortbyindex  (sortByLB.getValue(sortByLB.getSelectedIndex()));
 		sortByLB.setVisibleItemCount(1);
 		sortPanel.add(new HTML("Sort by:"));
 		sortPanel.add(sortByLB);
@@ -254,6 +263,8 @@ public class ArtFinder implements EntryPoint {
 
 		findArtButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				System.out.println("user location: " + userlat +", " + userlng);
+				System.out.println("user location: " + userlat +", " + userlng);
 				refreshArtList();
 			}
 		});
@@ -300,6 +311,35 @@ public class ArtFinder implements EntryPoint {
 //		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 
+	public String getSortbyindex() {
+		//return sortByLB.getValue(sortByLB.getSelectedIndex());
+		return sortbyindex;
+	}
+
+	public void setSortbyindex(String sortbyindex) {
+		this.sortbyindex = sortbyindex;
+	}
+	public double userlat=0.0;
+	public double getUserlat() {
+		System.out.println("getUserlat returning : " + userlat);
+		return userlat;
+	}
+
+	public void setUserlat(double userlat) {
+		System.out.println("seeting user lat to " + userlat);
+		this.userlat = userlat;
+	}
+
+	public double getUserlng() {
+		return userlng;
+	}
+
+	public void setUserlng(double userlng) {
+		System.out.println("seeting user lng to " + userlng);
+		this.userlng = userlng;
+	}
+	public double userlng=0.0;
+	
 	private void obtainPosition(final VerticalPanel geolocationPanel2,
 			Geolocation geo) {
 		final Label l2 = new Label("Obtaining position (timeout: 15 sec)...");
@@ -334,6 +374,9 @@ public class ArtFinder implements EntryPoint {
 				Coordinates c = position.getCoords();
 				geolocationPanel2.add(new Label("lat, lon: " + c.getLatitude()
 						+ ", " + c.getLongitude()));
+				setUserlat(c.getLatitude());
+				setUserlng(c.getLongitude());
+				
 				geolocationPanel2.add(new Label("Accuracy (in meters): "
 						+ c.getAccuracy()));
 				geolocationPanel2.add(new Label("Altitude: "
