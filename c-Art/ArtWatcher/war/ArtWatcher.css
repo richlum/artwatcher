@@ -41,6 +41,7 @@ body {
   background-color: #2062B8;
   color: white;
   font-style: italic;
+  text-align: center;
 }
 
 /* stock list flex table */
@@ -48,12 +49,12 @@ body {
   border: 1px solid silver;
   padding: 2px;
   margin-bottom:6px;
+  width: 50em;
 }
 
 /* stock list Price and Change fields */
 .watchListNumericColumn {
-  text-align: right;
-  width:8em;
+  text-align: center;
 }
 
 /* stock list Remove column */
