@@ -70,7 +70,7 @@ public class ArtFinder implements EntryPoint {
 			.create(StockPriceService.class);
 	// private ArtInformationServiceAsync artInfoService =
 	// GWT.create(ArtInformationService.class);
-	private ArtList artlist = new ArtList();
+	private ArtList artlist = new ArtList( this);
 	// login items
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
@@ -258,7 +258,12 @@ public class ArtFinder implements EntryPoint {
 		deleteAllArtButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				artlist.deleteAllArt();
-				refreshArtList();
+				// just assume that delete completes asynchronously and wipe out table here
+				int rows = artFlexTable.getRowCount();
+				for (int i = 2; i<rows; i++){
+					artFlexTable.removeRow(1);
+				}
+				//refreshArtList();
 			}
 		});
 
@@ -463,12 +468,13 @@ public class ArtFinder implements EntryPoint {
 
 	}
 
-	private void refreshArtList() {
+	public void refreshArtList() {
 
 		Vector<ArtInformation> resultVector = artlist.searchByLocation(15, 15);
-		ArtInformation[] resultarray = new ArtInformation[resultVector.size()];
-		resultarray = resultVector.toArray(resultarray);
-		updateTable(resultarray);
+		// moved table updates to inside async callback onSuccess 
+//		ArtInformation[] resultarray = new ArtInformation[resultVector.size()];
+//		resultarray = resultVector.toArray(resultarray);
+//		updateTable(resultarray);
 
 	}
 
@@ -483,7 +489,7 @@ public class ArtFinder implements EntryPoint {
 
 	}
 
-	private void updateTable(ArtInformation[] artInfo) {
+	public void updateTable(ArtInformation[] artInfo) {
 		int existing_rowcount = artFlexTable.getRowCount();
 		
 		for (int i = 0; i < artInfo.length; i++) {
@@ -628,6 +634,16 @@ public class ArtFinder implements EntryPoint {
 		if (error instanceof NotLoggedInException) {
 			Window.Location.replace(loginInfo.getLogoutUrl());
 		}
+	}
+
+	public FlexTable getFlexTable() {
+		// TODO Auto-generated method stub
+		return artFlexTable;
+	}
+
+	public Label getLastUpdatedLabel() {
+		// TODO Auto-generated method stub
+		return lastUpdatedLabel;
 	}
 
 }
