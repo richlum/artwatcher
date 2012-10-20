@@ -1,10 +1,48 @@
 package com.google.gwt.artvan.client;
 
+import com.google.gwt.maps.client.MapWidget;
+import com.google.gwt.maps.client.Maps;
+import com.google.gwt.maps.client.control.LargeMapControl;
+import com.google.gwt.maps.client.geom.LatLng;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+
 
 public class LocationManager {
 
-	private double lat;
-	private double lng;
+	//private double lat;
+	//private double lng;
+	
+	public void addMap(final ArtFinder af) {
+		// TODO Auto-generated constructor stub
+		// build map
+		Maps.loadMapsApi("AIzaSyBCzkdwkEfrlBoWpzcqUaoR7PaM7d3kSQ0", "2", false, new Runnable() {
+			public void run() {
+				buildUI(af);
+			}
+		});
+		System.out.println("called that map to build");
+	}
+	
+	private void buildUI(ArtFinder af) {
+		LatLng vancouver = LatLng.newInstance(49.25, -123.11);
+		final MapWidget map = new MapWidget(vancouver, 12);
+		map.setSize("80%", "60%");
+		map.addControl(new LargeMapControl());
+		//final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
+		//dock.addNorth(map, 1000);
+		//dock.setSize("800px", "600px");
+		//pagePanel.add(dock);
+		//RootPanel.get("mapRoot").add(dock);
+		DockLayoutPanel mapPanel = af.getMapPanel();
+		HorizontalPanel pagePanel = af.getPagePanel();
+		mapPanel.addNorth(map, 1000);
+		mapPanel.setSize("800px", "600px");
+		pagePanel.add(mapPanel);
+		//getLocationManager().placeOnMap(getUserlat(),getUserlng());
+		System.out.println("added that map");
+	}
+
 	//private LatLng location;
 	// should return LatLng but need to work out com.google.gwt.maps.client
 	void addressToLatLng(String address){
@@ -21,19 +59,6 @@ public class LocationManager {
 		}
 	}
 	
-	
-	void makeMarkerList( ArtInformation[] ai){
-		//TODO correct signature, set of pairs of lat long in, return list of markers
-		
-	}
-	
-	void makeMapPlaces(){
-		//TODO: correct signature and implement display maps given list of markers
-	}
-	
-	void getUserLocation(){
-		  
-	}
 
 	public void placeOnMap(ArtInformation[] result) {
 		// TODO Auto-generated method stub

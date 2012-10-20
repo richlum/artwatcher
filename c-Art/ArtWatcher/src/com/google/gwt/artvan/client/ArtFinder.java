@@ -121,11 +121,6 @@ public class ArtFinder implements EntryPoint {
 									+ "\"  is logged in, loading ArtWatcher");
 							userName.setText(loginInfo.getNickname());
 							loadArtWatcher();
-							Maps.loadMapsApi("AIzaSyBCzkdwkEfrlBoWpzcqUaoR7PaM7d3kSQ0", "2", false, new Runnable() {
-								public void run() {
-									buildUI();
-								}
-							});
 						} else {
 							System.out
 									.println("user not logged in, loading login page");
@@ -133,22 +128,6 @@ public class ArtFinder implements EntryPoint {
 						}
 					}
 				});
-	}
-	
-	private void buildUI() {
-		LatLng vancouver = LatLng.newInstance(49.25, -123.11);
-		final MapWidget map = new MapWidget(vancouver, 12);
-		map.setSize("80%", "60%");
-		map.addControl(new LargeMapControl());
-		//final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
-		//dock.addNorth(map, 1000);
-		//dock.setSize("800px", "600px");
-		//pagePanel.add(dock);
-		//RootPanel.get("mapRoot").add(dock);
-		mapPanel.addNorth(map, 1000);
-		mapPanel.setSize("800px", "600px");
-		pagePanel.add(mapPanel);
-		//getLocationManager().placeOnMap(getUserlat(),getUserlng());
 	}
 
 	protected void loadLogin() {
@@ -160,6 +139,9 @@ public class ArtFinder implements EntryPoint {
 	}
 
 	private void loadArtWatcher() {
+		
+		locationManager.addMap(this);
+		
 		// set up signout link
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		signOutLink.setVisible(true);
@@ -766,6 +748,16 @@ public class ArtFinder implements EntryPoint {
 	public Label getLastUpdatedLabel() {
 		// TODO Auto-generated method stub
 		return lastUpdatedLabel;
+	}
+
+	public DockLayoutPanel getMapPanel() {
+		// TODO Auto-generated method stub
+		return mapPanel;
+	}
+
+	public HorizontalPanel getPagePanel() {
+		// TODO Auto-generated method stub
+		return pagePanel;
 	}
 
 }
