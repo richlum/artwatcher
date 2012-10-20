@@ -62,7 +62,7 @@ public class ArtList {
 			}
 
 			public void onSuccess(ArtInformation[] result) {
-				// todo get rid of ugly strings, need to define constants
+				// todo move this code back into artfinder and call it.
 				//
 				if (result==null) return;
 				System.out.println("retreived result count = " + result.length );
@@ -198,7 +198,11 @@ public class ArtList {
 	}
 
 	Vector<ArtInformation> searchByAddres(String address) {
-		// TODO build the list before returning it
+		//
+		LocationManager locationManager = artfinder.getLocationManager();
+		double lat = locationManager.addressToLat(address);
+		double lng = locationManager.addressToLng(address);
+		artInfoService.searchByLocation(lat, lng, callback);
 		return artworks;
 	}
 

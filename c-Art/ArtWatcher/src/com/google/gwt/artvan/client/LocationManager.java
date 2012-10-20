@@ -49,4 +49,15 @@ public class LocationManager {
 		// TODO Auto-generated method stub
 		System.out.println("updating map with user location:" +userlat+", "+userlng);
 	}
+
+	public double addressToLat(String address) {
+		System.out.println("getting lat from address" + address);
+		return 0;
+	}
+
+	public double addressToLng(String address) {
+		// TODO Auto-generated method stub
+		System.out.println("getting lng from address" + address);
+		return 0;
+	}
 }

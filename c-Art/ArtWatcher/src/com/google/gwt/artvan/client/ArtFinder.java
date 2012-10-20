@@ -194,6 +194,24 @@ public class ArtFinder implements EntryPoint {
 		artPanel.add(findArtButton);
 		artPanel.add(deleteAllArtButton);
 		
+		artSearchTextBox.addKeyPressHandler(new KeyPressHandler(){
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+
+				if ((event.getCharCode()==KeyCodes.KEY_ENTER)||
+					(event.getNativeEvent().getCharCode()==KeyCodes.KEY_ENTER)){
+					locationManager = getLocationManager();
+					String address = artSearchTextBox.getText();
+					double lat = locationManager.addressToLat(address);
+					double lng = locationManager.addressToLng(address);
+					artlist.searchByLocation(lat, lng);
+				}
+				
+			}
+			
+		});
+		
 		//Assemble Sort Art panel
 		sortButton.addClickHandler(new ClickHandler()
 	    {
@@ -524,8 +542,9 @@ public class ArtFinder implements EntryPoint {
 
 	public void refreshArtList() {
 
-		Vector<ArtInformation> resultVector = artlist.searchByLocation(15, 15);
-		// moved table updates to inside async callback onSuccess 
+		Vector<ArtInformation> resultVector = artlist.searchByLocation(getUserlat(), getUserlng());
+		// temporarily moved table updates to inside async callback onSuccess
+		//todo need to move back here and get onsuccess to call us
 //		ArtInformation[] resultarray = new ArtInformation[resultVector.size()];
 //		resultarray = resultVector.toArray(resultarray);
 //		updateTable(resultarray);
