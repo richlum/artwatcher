@@ -57,6 +57,7 @@ public class ArtFinder implements EntryPoint {
 	private HorizontalPanel addPanel = new HorizontalPanel();
 	private HorizontalPanel artPanel = new HorizontalPanel();
 	private HorizontalPanel sortPanel = new HorizontalPanel();
+	private DockLayoutPanel mapPanel = new DockLayoutPanel(Unit.PX);
 	private TextBox newSymbolTextBox = new TextBox();
 	private TextBox artSearchTextBox = new TextBox();
 	private Button findArtButton = new Button("findArt");
@@ -132,11 +133,14 @@ public class ArtFinder implements EntryPoint {
 		final MapWidget map = new MapWidget(vancouver, 12);
 		map.setSize("80%", "60%");
 		map.addControl(new LargeMapControl());
-		final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
-		dock.addNorth(map, 1000);
-		dock.setSize("800px", "600px");
+		//final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
+		//dock.addNorth(map, 1000);
+		//dock.setSize("800px", "600px");
 		//pagePanel.add(dock);
-		RootPanel.get("mapRoot").add(dock);
+		//RootPanel.get("mapRoot").add(dock);
+		mapPanel.addNorth(map, 1000);
+		mapPanel.setSize("800px", "600px");
+		pagePanel.add(mapPanel);
 	}
 
 	protected void loadLogin() {
