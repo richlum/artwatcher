@@ -64,10 +64,14 @@ public class ArtList {
 			public void onSuccess(ArtInformation[] result) {
 				// todo get rid of ugly strings, need to define constants
 				//
+				System.out.println("retreived result count = " + result.length );
 				userlat = finalartfinder.getUserlat();
 				userlng = finalartfinder.getUserlng();
-				sortSelectionIndex = finalartfinder.getSortbyindex();
+				//sortSelectionIndex = finalartfinder.getSortbyindex();
 				
+				LocationManager locationManager = finalartfinder.getLocationManager();
+				if ((result!=null)&&(result.length>0))
+					locationManager.placeOnMap(result);
 				String sortSetting = "Rating";
 				System.out.println(sortSetting);
 				System.out.println("onSuccess:user location :" +  userlat+ "," + userlng);

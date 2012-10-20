@@ -30,4 +30,14 @@ public class LocationManager {
 	void getUserLocation(){
 		//TODO  return what?  pair of doubles?  
 	}
+
+	public void placeOnMap(ArtInformation[] result) {
+		// TODO Auto-generated method stub
+		System.out.println("updating map with retrieved results");
+		for (int i =0;i<result.length;i++){
+			System.out.println("art: " + result[i].getLat() + " " +
+					result[i].getLng());
+		}
+		
+	}
 }
