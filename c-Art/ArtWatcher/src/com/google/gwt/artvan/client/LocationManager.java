@@ -12,9 +12,13 @@ public class LocationManager {
 	}
 	
 	//todo update ArtInformation to reflect distance from user by calling ai.setKmFromUser
-	void distanceToUserLocation(double userlat, double userlng, ArtInformation[] ai){
+	void distanceToUserLocation(double userlat, double userlng, ArtInformation[] result){
 		//TODO : use google maps distance functions
-		
+		System.out.println("calculating distance to user with retrieved results");
+		for (int i =0;i<result.length;i++){
+			System.out.println("art: " + result[i].getLat() + " " +
+					result[i].getLng() + ", distance = " + result[i].getKmFromUser());
+		}
 	}
 	
 	

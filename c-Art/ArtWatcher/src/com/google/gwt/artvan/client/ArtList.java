@@ -69,8 +69,13 @@ public class ArtList {
 				userlat = finalartfinder.getUserlat();
 				userlng = finalartfinder.getUserlng();
 				//sortSelectionIndex = finalartfinder.getSortbyindex();
-				
 				LocationManager locationManager = finalartfinder.getLocationManager();
+				//todo put this in the else clause below after testing
+				locationManager.distanceToUserLocation(userlat, userlng, result);
+				Arrays.sort(result, new byDistance());
+				
+				
+				
 				if ((result!=null)&&(result.length>0))
 					locationManager.placeOnMap(result);
 				String sortSetting = "Rating";
@@ -80,11 +85,6 @@ public class ArtList {
 					Arrays.sort(result, new byRating());
 				} else if (sortSetting.equalsIgnoreCase("Most Visited")) {
 					Arrays.sort(result, new byVisits());
-				} else if (sortSetting.equalsIgnoreCase("Distance")) {
-					//  populate distances and then sort by them
-					locationManager.distanceToUserLocation(userlat, userlng, result);
-					Arrays.sort(result, new byDistance());
-					
 				}
 
 				if (result != null) {
