@@ -87,11 +87,14 @@ public class ArtFinder implements EntryPoint {
 			.create(StockService.class);
 	protected String sortbyindex;
 	private LocationManager locationManager = new LocationManager();
-
+	public Admin admin = new Admin();
+	
 	public LocationManager getLocationManager() {
 		if (locationManager==null)
 			locationManager=new LocationManager();
 		return locationManager;
+		
+	
 	}
 
 	/**
@@ -193,6 +196,7 @@ public class ArtFinder implements EntryPoint {
 		artPanel.add(artSearchTextBox);
 		artPanel.add(findArtButton);
 		artPanel.add(deleteAllArtButton);
+		artPanel.add(admin.createUploadOption());
 		
 		artSearchTextBox.addKeyPressHandler(new KeyPressHandler(){
 

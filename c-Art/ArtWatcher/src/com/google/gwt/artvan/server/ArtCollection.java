@@ -89,6 +89,17 @@ public class ArtCollection {
 		
 	}
 	
+	public void addArtObject(String name,String title, double latitude, 
+			double longitude, String link){
+		ArtInformation art = new ArtInformation();
+		art.setName(name);
+		art.setDescription(title);
+		art.setLat(latitude);
+		art.setLng(longitude);
+		art.setLink(link);
+		addArtObject(art);
+	}
+	
 	ArtInformation[] getListByDistance(){
 		PersistenceManager pm = getPersistenceManager();
 		ArtInformation[] ai_array = null;
