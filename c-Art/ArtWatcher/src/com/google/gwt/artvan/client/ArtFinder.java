@@ -8,6 +8,8 @@ import com.google.code.gwt.geolocation.client.PositionError;
 import com.google.code.gwt.geolocation.client.PositionOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
@@ -222,6 +224,50 @@ public class ArtFinder implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				Window.alert("Will sort by " + sortByLB.getValue(sortByLB.getSelectedIndex()));	
 				setSortbyindex  (sortByLB.getValue(sortByLB.getSelectedIndex()));
+				ArtInformation[] aiList =artlist.getAi();
+				Arrays.sort(aiList, new byDistance());
+				
+				
+			}
+			
+
+			class byRating implements Comparator{
+
+				@Override
+				public int compare(Object arg0, Object arg1) {
+					if ((((ArtInformation)arg0).getRating() - ((ArtInformation)arg1).getRating()) > 0){
+						return 1;
+					}else {
+						return 0;
+					}
+			
+				}
+			}
+			
+			class byVisits implements Comparator{
+
+				@Override
+				public int compare(Object o1, Object o2) {
+					if ((((ArtInformation)o1).getVisits() - ((ArtInformation)o2).getVisits()) > 0){
+						return 1;
+					}else {
+						return 0;
+					}
+				}
+				
+			}
+			
+			class byDistance implements Comparator{
+
+				@Override
+				public int compare(Object o1, Object o2) {
+					if ((((ArtInformation)o1).getKmFromUser() - ((ArtInformation)o2).getKmFromUser()) > 0){
+						return 1;
+					}else {
+						return 0;
+					}
+				}
+				
 			}
 	    });
 		sortPanel.addStyleName("sortPanel");

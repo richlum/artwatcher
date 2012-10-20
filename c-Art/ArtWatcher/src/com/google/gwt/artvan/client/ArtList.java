@@ -24,7 +24,16 @@ public class ArtList {
 	private AsyncCallback<ArtInformation[]> callback;
 	private LocationManager locationMgr;
 	private ArtFinder artfinder;
+	private ArtInformation[] ai;
 	
+	public ArtInformation[] getAi() {
+		return ai;
+	}
+
+	public void setAi(ArtInformation[] ai) {
+		this.ai = ai;
+	}
+
 	public double userlat = 99.9999;
 	public double userlng = 99.999;
 	public String sortSelectionIndex ="none";
@@ -65,6 +74,7 @@ public class ArtList {
 				// todo move this code back into artfinder and call it.
 				//
 				if (result==null) return;
+				setAi(result);
 				System.out.println("retreived result count = " + result.length );
 				userlat = finalartfinder.getUserlat();
 				userlng = finalartfinder.getUserlng();
@@ -73,8 +83,6 @@ public class ArtList {
 				//todo put this in the else clause below after testing
 				locationManager.distanceToUserLocation(userlat, userlng, result);
 				Arrays.sort(result, new byDistance());
-				
-				
 				
 				if ((result!=null)&&(result.length>0))
 					locationManager.placeOnMap(result);
