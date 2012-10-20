@@ -61,5 +61,45 @@
     <servlet-name>SystemServiceServlet</servlet-name>
     <url-pattern>/_ah/spi/*</url-pattern>
   </servlet-mapping>
+  
+  
+  
+    <!-- XML PARSING STUFF -->
+    <!-- Apache Commons Upload --> 
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>1.2.2</version>
+</dependency>
+
+<!-- Configure the multipart resolver -->
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+    <!-- one of the properties available; the maximum file size in bytes -->
+    <property name="maxUploadSize" value="100000"/>
+</bean> 
+
+<dependency>
+   <groupId>commons-fileupload</groupId>
+   <artifactId>commons-fileupload</artifactId>
+   <version>1.2.2</version> <!-- makesure correct version here -->
+</dependency>
+  
+  
+  
+    <servlet>
+   	<servlet-name>UploadArtServlet</servlet-name>
+   	<servlet-class>com.google.gwt.artvan.server.UploadArtServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>UploadArtServlet</servlet-name>
+    <url-pattern>/UploadArt</url-pattern>
+    </servlet-mapping>
+  
+  
+  
+  
+  
+  
+  
 
 </web-app>
