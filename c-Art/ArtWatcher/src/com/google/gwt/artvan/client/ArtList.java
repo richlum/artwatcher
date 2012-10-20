@@ -64,6 +64,7 @@ public class ArtList {
 			public void onSuccess(ArtInformation[] result) {
 				// todo get rid of ugly strings, need to define constants
 				//
+				if (result==null) return;
 				System.out.println("retreived result count = " + result.length );
 				userlat = finalartfinder.getUserlat();
 				userlng = finalartfinder.getUserlng();
