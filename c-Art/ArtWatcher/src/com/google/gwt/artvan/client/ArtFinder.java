@@ -196,7 +196,6 @@ public class ArtFinder implements EntryPoint {
 		artPanel.add(artSearchTextBox);
 		artPanel.add(findArtButton);
 		artPanel.add(deleteAllArtButton);
-		artPanel.add(admin.createUploadOption());
 		
 		artSearchTextBox.addKeyPressHandler(new KeyPressHandler(){
 
@@ -257,7 +256,7 @@ public class ArtFinder implements EntryPoint {
 		pagePanel.add(tablePanel);
 
 		RootPanel.get("artList").add(pagePanel);
-		RootPanel.get("artList").add(createUploadForm());
+		RootPanel.get("artList").add(admin.createUploadOption());
 
 		// Move cursor focus to input box
 		newSymbolTextBox.setFocus(true);
