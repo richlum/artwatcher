@@ -32,7 +32,7 @@ public class LocationManager {
 	}
 	
 	void getUserLocation(){
-		//TODO  return what?  pair of doubles?  
+		  
 	}
 
 	public void placeOnMap(ArtInformation[] result) {
@@ -43,5 +43,10 @@ public class LocationManager {
 					result[i].getLng());
 		}
 		
+	}
+
+	public void placeOnMap(double userlat, double userlng) {
+		// TODO Auto-generated method stub
+		System.out.println("updating map with user location:" +userlat+", "+userlng);
 	}
 }

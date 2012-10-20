@@ -89,6 +89,8 @@ public class ArtFinder implements EntryPoint {
 	private LocationManager locationManager = new LocationManager();
 
 	public LocationManager getLocationManager() {
+		if (locationManager==null)
+			locationManager=new LocationManager();
 		return locationManager;
 	}
 
@@ -129,7 +131,7 @@ public class ArtFinder implements EntryPoint {
 	}
 	
 	private void buildUI() {
-		 LatLng vancouver = LatLng.newInstance(49.25, -123.11);
+		LatLng vancouver = LatLng.newInstance(49.25, -123.11);
 		final MapWidget map = new MapWidget(vancouver, 12);
 		map.setSize("80%", "60%");
 		map.addControl(new LargeMapControl());
@@ -141,6 +143,7 @@ public class ArtFinder implements EntryPoint {
 		mapPanel.addNorth(map, 1000);
 		mapPanel.setSize("800px", "600px");
 		pagePanel.add(mapPanel);
+		//getLocationManager().placeOnMap(getUserlat(),getUserlng());
 	}
 
 	protected void loadLogin() {
@@ -380,6 +383,7 @@ public class ArtFinder implements EntryPoint {
 						+ ", " + c.getLongitude()));
 				setUserlat(c.getLatitude());
 				setUserlng(c.getLongitude());
+				getLocationManager().placeOnMap(getUserlat(),getUserlng());
 				
 				geolocationPanel2.add(new Label("Accuracy (in meters): "
 						+ c.getAccuracy()));
