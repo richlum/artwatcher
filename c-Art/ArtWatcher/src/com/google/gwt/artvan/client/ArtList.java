@@ -102,14 +102,13 @@ public class ArtList {
 			}
 
 			public void updateTable(ArtInformation[] artInfo) {
-				
 
 				for (int i = 0; i < artInfo.length; i++) {
 					updateTable(artInfo[i], i + 1);
 				}
 				int existing_rowcount = artFlexTable.getRowCount();
 				// we have fewer rows than before, clear the excess
-				for (int i = artInfo.length; i < existing_rowcount; i++) {
+				for (int i = 1 + artInfo.length; i < existing_rowcount; i++) {
 					if (i != 0) // just so we don't remove the header if length
 								// = 0
 						artFlexTable.removeRow(i);

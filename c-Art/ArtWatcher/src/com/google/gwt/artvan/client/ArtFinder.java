@@ -207,9 +207,15 @@ public class ArtFinder implements EntryPoint {
 				Window.alert("Will sort by " + sortByLB.getValue(sortByLB.getSelectedIndex()));	
 				setSortbyindex  (sortByLB.getValue(sortByLB.getSelectedIndex()));
 				ArtInformation[] aiList =artlist.getAi();
-				Arrays.sort(aiList, new byDistance());
-				
-				
+				if(getSortbyindex().toUpperCase().contains("DISTANCE"))					
+					Arrays.sort(aiList, new byDistance());
+				else if(getSortbyindex().toUpperCase().contains("RATING"))
+					Arrays.sort(aiList, new byRating());
+				else if(getSortbyindex().toUpperCase().contains("VISITED"))
+					Arrays.sort(aiList, new byVisits());
+
+				artlist.setAi(aiList);
+				updateTable(aiList);				
 			}
 			
 
@@ -217,7 +223,7 @@ public class ArtFinder implements EntryPoint {
 
 				@Override
 				public int compare(Object arg0, Object arg1) {
-					if ((((ArtInformation)arg0).getRating() - ((ArtInformation)arg1).getRating()) > 0){
+					if ((((ArtInformation)arg0).getRating() - ((ArtInformation)arg1).getRating()) < 0){
 						return 1;
 					}else {
 						return 0;
@@ -230,7 +236,7 @@ public class ArtFinder implements EntryPoint {
 
 				@Override
 				public int compare(Object o1, Object o2) {
-					if ((((ArtInformation)o1).getVisits() - ((ArtInformation)o2).getVisits()) > 0){
+					if ((((ArtInformation)o1).getVisits() < ((ArtInformation)o2).getVisits())){
 						return 1;
 					}else {
 						return 0;
@@ -243,7 +249,7 @@ public class ArtFinder implements EntryPoint {
 
 				@Override
 				public int compare(Object o1, Object o2) {
-					if ((((ArtInformation)o1).getKmFromUser() - ((ArtInformation)o2).getKmFromUser()) > 0){
+					if ((((ArtInformation)o1).getKmFromUser() < ((ArtInformation)o2).getKmFromUser())){
 						return 1;
 					}else {
 						return 0;
@@ -595,13 +601,13 @@ public class ArtFinder implements EntryPoint {
 	}
 
 	public void updateTable(ArtInformation[] artInfo) {
-		int existing_rowcount = artFlexTable.getRowCount();
 		
 		for (int i = 0; i < artInfo.length; i++) {
 			updateTable(artInfo[i], i + 1);
 		}
+		int existing_rowcount = artFlexTable.getRowCount();
 		// we have fewer rows than before, clear the excess
-		for (int i = artInfo.length; i< existing_rowcount; i++){
+		for (int i = 1 + artInfo.length; i< existing_rowcount; i++){
 			if(i!=0) //just so we don't remove the header if length = 0
 				artFlexTable.removeRow(i);
 		}
