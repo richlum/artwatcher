@@ -15,7 +15,7 @@ public class LocationManager {
 
 	//private double lat;
 	//private double lng;
-	
+
 	public void addMap(final ArtFinder af) {
 		// TODO Auto-generated constructor stub
 		// build map
@@ -26,8 +26,8 @@ public class LocationManager {
 		});
 		System.out.println("called that map to build");
 	}
-	
-	MapWidget map=null;
+
+	public MapWidget map=null;
 	private void buildUI(ArtFinder af) {
 		LatLng vancouver = LatLng.newInstance(49.25, -123.11);
 		map = new MapWidget(vancouver, 12);
@@ -52,7 +52,7 @@ public class LocationManager {
 	void addressToLatLng(String address){
 		//TODO : integrate google maps geocoding service
 	}
-	
+
 	//todo update ArtInformation to reflect distance from user by calling ai.setKmFromUser
 	void distanceToUserLocation(double userlat, double userlng, ArtInformation[] result){
 		//TODO : use google maps distance functions
@@ -62,25 +62,31 @@ public class LocationManager {
 					result[i].getLng() + ", distance = " + result[i].getKmFromUser());
 		}
 	}
-	
+
 
 	public void placeOnMap(ArtInformation[] result) {
-		
+
 		System.out.println("updating map with retrieved results");
 		for (int i =0;i<result.length;i++){
 			System.out.println("art: " + result[i].getLat() + " " +
 					result[i].getLng());
-			placeOnMap(result[i].getLat(), result[i].getLng());
+			LatLng ll = LatLng.newInstance(result[i].getLat(), result[i].getLng());
+			Marker artmarker=new Marker(ll);
+			map.addOverlay(artmarker);
+			map.setVisible(true);
+			artmarker.setVisible(true);
 		}
-		
+
 	}
 
 	public void placeOnMap(double userlat, double userlng) {
 		// TODO Auto-generated method stub
-		System.out.println("updating map with user location:" +userlat+", "+userlng);
 		LatLng ll = LatLng.newInstance(userlat, userlng);
 		Marker artmarker=new Marker(ll);
 		map.addOverlay(artmarker);
+		map.setVisible(true);
+		artmarker.setVisible(true);
+		System.out.println("updating map with user location:" +userlat+", "+userlng);
 	}
 
 	public double addressToLat(String address) {
@@ -94,9 +100,8 @@ public class LocationManager {
 		return 0;
 	}
 
-	public LocationManager clearAllMarkers() {	
-		// TODO  this should remove all art markers.
-		System.out.println("clearing all art markers from map");
+	public LocationManager clearAllMarkers() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -1,8 +1,4 @@
 *class
-ArtWatcher/war/artvan/
-ArtWatcger/.classpath
 ArtWatcher/war/WEB-INF/deploy/artvan/symbolMaps/
 war/WEB-INF/appengine-generated/
-.settings/
-.gwt/
 ArtWatcher/war/WEB-INF/appengine-generated/
