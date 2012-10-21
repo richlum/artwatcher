@@ -1,9 +1,12 @@
 package com.google.gwt.artvan.client;
 
+import java.util.Map;
+
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.Maps;
 import com.google.gwt.maps.client.control.LargeMapControl;
 import com.google.gwt.maps.client.geom.LatLng;
+import com.google.gwt.maps.client.overlay.Marker;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -24,9 +27,10 @@ public class LocationManager {
 		System.out.println("called that map to build");
 	}
 	
+	MapWidget map=null;
 	private void buildUI(ArtFinder af) {
 		LatLng vancouver = LatLng.newInstance(49.25, -123.11);
-		final MapWidget map = new MapWidget(vancouver, 12);
+		map = new MapWidget(vancouver, 12);
 		map.setSize("80%", "60%");
 		map.addControl(new LargeMapControl());
 		//final DockLayoutPanel dock = new DockLayoutPanel(Unit.PX);
@@ -61,11 +65,14 @@ public class LocationManager {
 	
 
 	public void placeOnMap(ArtInformation[] result) {
-		// TODO Auto-generated method stub
+		
 		System.out.println("updating map with retrieved results");
 		for (int i =0;i<result.length;i++){
 			System.out.println("art: " + result[i].getLat() + " " +
 					result[i].getLng());
+			LatLng ll = LatLng.newInstance(result[i].getLat(), result[i].getLng());
+			Marker artmarker=new Marker(ll);
+			map.addOverlay(artmarker);
 		}
 		
 	}

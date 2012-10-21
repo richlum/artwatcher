@@ -89,6 +89,9 @@ public void characters(char ch[], int start, int length)
 	}
 	if (isDescription) {
 			if (data.indexOf("TITLE:") > 0){
+				System.out.println("before title:"+ data);
+				System.out.println("length = "+data.length());
+				System.out.println("index of url" + data.indexOf("URL"));
 				title = data.substring(7, data.indexOf("URL") - 1);	
 			}
 			if (data.indexOf("ArtworkID=") > 0){
@@ -98,8 +101,8 @@ public void characters(char ch[], int start, int length)
 			}
 	}
 	if (isCoordinates) {
-		latitude = new Double(data.substring(0, 10));
-		longitude = new Double(data.substring(12, 20));
+		longitude = new Double(data.substring(0, 10));
+		latitude = new Double(data.substring(12, 20));
 		isCoordinates = false;
 	}
 }
