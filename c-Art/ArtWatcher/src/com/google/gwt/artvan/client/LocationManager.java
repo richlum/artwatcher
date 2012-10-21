@@ -93,4 +93,10 @@ public class LocationManager {
 		System.out.println("getting lng from address" + address);
 		return 0;
 	}
+
+	public LocationManager clearAllMarkers() {	
+		// TODO  this should remove all art markers.
+		System.out.println("clearing all art markers from map");
+		return null;
+	}
 }

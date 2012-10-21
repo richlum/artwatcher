@@ -333,6 +333,7 @@ public class ArtFinder implements EntryPoint {
 				for (int i = 1; i<rows; i++){
 					artFlexTable.removeRow(1);
 				}
+				LocationManager lm = getLocationManager().clearAllMarkers();
 				//refreshArtList();
 			}
 		});
