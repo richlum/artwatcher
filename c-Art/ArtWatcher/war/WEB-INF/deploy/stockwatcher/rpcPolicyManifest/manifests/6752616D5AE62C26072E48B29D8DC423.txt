@@ -1,2 +1,0 @@
-serviceClass: com.google.gwt.artvan.client.LoginService
-path: 87B03F9730E03DAE58FA6A5169B89528.gwt.rpc

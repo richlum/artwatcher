@@ -1,2 +1,0 @@
-serviceClass: com.google.gwt.artvan.client.ArtInformationService
-path: 0459220CAA8534CB156E29B33264B74E.gwt.rpc

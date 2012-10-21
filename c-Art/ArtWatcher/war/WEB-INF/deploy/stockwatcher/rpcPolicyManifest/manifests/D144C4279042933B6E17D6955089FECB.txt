@@ -1,2 +1,0 @@
-serviceClass: com.google.gwt.artvan.client.StockPriceService
-path: E2618438FA40DF21CAB6FD868727738A.gwt.rpc
