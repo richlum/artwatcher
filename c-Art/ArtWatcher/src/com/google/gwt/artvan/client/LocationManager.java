@@ -70,9 +70,7 @@ public class LocationManager {
 		for (int i =0;i<result.length;i++){
 			System.out.println("art: " + result[i].getLat() + " " +
 					result[i].getLng());
-			LatLng ll = LatLng.newInstance(result[i].getLat(), result[i].getLng());
-			Marker artmarker=new Marker(ll);
-			map.addOverlay(artmarker);
+			placeOnMap(result[i].getLat(), result[i].getLng());
 		}
 		
 	}
@@ -80,6 +78,9 @@ public class LocationManager {
 	public void placeOnMap(double userlat, double userlng) {
 		// TODO Auto-generated method stub
 		System.out.println("updating map with user location:" +userlat+", "+userlng);
+		LatLng ll = LatLng.newInstance(userlat, userlng);
+		Marker artmarker=new Marker(ll);
+		map.addOverlay(artmarker);
 	}
 
 	public double addressToLat(String address) {
