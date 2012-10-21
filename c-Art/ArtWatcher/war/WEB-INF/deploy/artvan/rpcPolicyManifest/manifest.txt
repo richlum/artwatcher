@@ -1,2 +1,6 @@
 # Module artvan
 # RPC service class, partial path of RPC policy file
+com.google.gwt.artvan.client.ArtInformationService, E7B59E31FEC0A23489A2EE573755FB4A.gwt.rpc
+com.google.gwt.artvan.client.StockService, A6948657A6B3FB8DDD92092220AE89AA.gwt.rpc
+com.google.gwt.artvan.client.LoginService, 87B03F9730E03DAE58FA6A5169B89528.gwt.rpc
+com.google.gwt.artvan.client.StockPriceService, E2618438FA40DF21CAB6FD868727738A.gwt.rpc
